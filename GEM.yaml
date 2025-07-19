@@ -2,3 +2,21 @@
   "mouse-src": "mouse.png",
   "background-color": "30 30 45 255"
 ]
+"shell": [
+  "name" : "GNOME",
+  "background-color" : "15 85 85 255",
+  "source": "/bin/gnome-session",
+  "description": "Ubuntu 24.04",
+  "hover" : [
+    "transition": "0.3",
+    "effect" : "ease-in-out",
+    "background-color" : "10 80 125 255",
+    "description": "Run Ubuntu?"
+  ]
+]
+"shell": [
+  "name": "Hyprland",
+  "background-color": "10 80 125 255",
+  "source": "/bin/hyprland",
+  "description": "Wayland Hyprland"
+]
