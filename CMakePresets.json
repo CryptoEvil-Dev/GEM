@@ -1,0 +1,56 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 23,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "build_all",
+      "displayName": "Build All Configurations",
+      "description": "Configure project for all build types",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/build_all",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      },
+      "environment": {
+        "CC": "gcc",
+        "CXX": "g++"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "build_all",
+      "configurePreset": "build_all",
+      "displayName": "Build All",
+      "description": "Build all targets",
+      "targets": ["all"]
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "test_all",
+      "configurePreset": "build_all",
+      "displayName": "Run Tests",
+      "description": "Run all tests"
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "build_all",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "build_all"
+        },
+        {
+          "type": "build",
+          "name": "build_all"
+        }
+      ]
+    }
+  ]
+}
