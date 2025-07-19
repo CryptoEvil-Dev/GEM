@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="360px" src="https://github.com/user-attachments/assets/cab4ee17-588e-45e8-8781-8cf07d08806f" />
+</p>
+
 # GEM
 Graphic Environment Manager(**GEM**):<br />Менеджер графических окружений. Позволяет выбирать графическую оболочку в интерактивном графическом режиме.
 ### Библиотеки
