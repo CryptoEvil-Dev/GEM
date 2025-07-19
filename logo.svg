@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+  <defs>
+    <linearGradient gradientUnits="userSpaceOnUse" x1="244.825" y1="88.575" x2="244.825" y2="318.575" id="gradient-1" spreadMethod="reflect">
+      <stop offset="0" style="stop-color: rgb(69.804% 20.784% 20.784%)"></stop>
+      <stop offset="1" style="stop-color: rgb(50.098% 0% 7.0564%)"></stop>
+    </linearGradient>
+  </defs>
+  <rect x="129.825" y="88.575" width="230" height="230" style="transform-box: fill-box; transform-origin: 50% 50%; paint-order: fill; stroke-opacity: 0.19; stroke-width: 13px; stroke-miterlimit: 30; fill: url(#gradient-1); fill-rule: nonzero; fill-opacity: 0.83;" transform="matrix(0.694406, 0.719584, -0.719584, 0.694406, 0.000061, 0.000008)"></rect>
+  <polygon style="fill: rgb(255, 255, 255); stroke: rgb(255, 255, 255);" points="82.34 200.48 242.656 261.721 406.82 206.252 242.335 259.477"></polygon>
+  <polyline style="fill: rgb(216, 216, 216); stroke: rgb(255, 255, 255);" points="246.977 41.224 242.871 260.376 241.331 365.076"></polyline>
+  <text style="fill: rgb(51, 51, 51); font-family: &quot;Noto Kufi Arabic&quot;; font-size: 33.324px; white-space: pre;" transform="matrix(2.397634, 0, 0, 2.400673, -340.140381, -514.796631)" x="206.168" y="401.059">GEM</text>
+</svg>
