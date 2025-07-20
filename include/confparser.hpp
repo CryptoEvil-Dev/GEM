@@ -1,5 +1,5 @@
-#ifndef _GEM_SDL_SHELL_
-#define _GEM_SDL_SHELL_
+#ifndef _GEM_SDL_CONFPARSER_
+#define _GEM_SDL_CONFPARSER_
 #pragma once
 
 #include <iostream>
