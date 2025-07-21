@@ -36,3 +36,37 @@ Graphic Environment Manager(**GEM**):<br />Менеджер графически
 
 # Сборка проекта
 cmake --workflow --preset=build_all
+
+
+# Зависимости
+
+1. **Библиотеки SDL2**:
+   - `libsdl2-dev` (основная библиотека SDL2)
+   - `libsdl2-image-dev` (для работы с изображениями: PNG, JPEG и др.)
+   - `libsdl2-ttf-dev` (для работы с векторными шрифтами)
+   - `libsdl2-gfx-dev` (для расширенной графики: примитивы, антиалиасинг)
+2. **Инструменты сборки**:
+   - `build-essential` (компиляторы gcc/g++, make и другие базовые инструменты)
+   - `cmake` (система сборки)
+   - `ninja-build` (альтернативная система сборки, быстрее make)
+3. **Дополнительные зависимости**:
+   - `pkg-config` (для поиска библиотек через .pc файлы)
+   - `libdrm-dev` и `libgbm-dev` (для работы с KMS/DRM, хотя обычно они уже установлены)
+4. **Шрифты** (опционально, для примеров):
+   - `fonts-roboto` (шрифт Roboto)
+   - `fonts-dejavu` (шрифт DejaVu)
+
+# Установка
+``` bash
+sudo sudo apt install -y \
+    libsdl2-dev \
+    libsdl2-image-dev \
+    libsdl2-ttf-dev \
+    libsdl2-gfx-dev \
+    build-essential \
+    cmake \
+    ninja-build \
+    pkg-config \
+    fonts-roboto \
+    fonts-dejavu
+```

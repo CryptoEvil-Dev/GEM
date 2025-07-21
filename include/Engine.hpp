@@ -12,8 +12,14 @@
 #include <memory>
 #include <functional>
 
+#include <iostream>
+#include <unistd.h>
+#include <cmath>
+
 namespace gem
 {
+
+enum class EventType {MOUSE_DOWN, MOUSE_UP, MOUSE_ENTER, MOUSE_LEAVE, MOUSE_MOVE, FOCUS};
 
 typedef struct{
     Uint8 background_color[4]; // rgba
@@ -27,19 +33,25 @@ typedef struct{
 
 class DOM{
 public:
-    DOM();
+    DOM(int v_width, int v_height);
     DOM(const DOM&) = delete;
     DOM(DOM&&) = delete;
+
+    ~DOM();
 
     void append(const Node& el); // Добавить элемент
     void remove(const Node& el); // Удалить элемент
 
-private:
+protected:
     SDL_Window* window = nullptr;
     SDL_Renderer* renderer = nullptr;
+    SDL_Texture* render_target;
     SDL_Event event;
 
     std::vector<Node&> tree;
+private:
+    int virtual_width;
+    int virtual_height;
 };
 
 class Node{
@@ -57,6 +69,8 @@ public:
     virtual void setMouseEnterCallback(EventCallback cb) { mouseEnterCallback = std::move(cb); }
     virtual void setMouseLeaveCallback(EventCallback cb) { mouseLeaveCallback = std::move(cb); }
     virtual void setMouseMoveCallback(EventCallback cb) { mouseMoveCallback = std::move(cb); }
+
+    virtual void addEventListeneer(gem::EventType event_type, EventCallback cb);
 
     virtual void get_coord(int& x, int& y) const;
     virtual void get_size(int& w, int& h) const;
@@ -84,6 +98,9 @@ protected:
     bool mouseHovered = false;
     std::vector<Node&> childs; // Дети элемента
     Node* rootNode = nullptr; // Родительский элемент, от которого будет браться смещение (виртуальные координаты)
+
+    bool focused = false;
+    void setFocus(bool focus) noexcept; // Эта функция вызывается лишь DOM, для определения элемента на котором сфокусирован пользователь
 
 private:
     const DOM& dom;
