@@ -1,6 +1,8 @@
 #include <iostream>
 #include "include/sdl_graphic.hpp"
 
+#include "include/Engine.hpp"
+
 int main() {
     gem::GDriver driver;
     
@@ -15,9 +17,7 @@ int main() {
     driver.add_shell("KDE", "startx /usr/bin/startplasma-x11", "assets/kde.png");
     driver.add_shell("XFCE", "startx /usr/bin/startxfce4", "assets/xfce.png");
     driver.add_shell("LXQt", "startx /usr/bin/startlxqt", "assets/lxqt.png");
-    driver.add_shell("LXQt", "startx /usr/bin/startlxqt", "assets/lxqt.png");
-    driver.add_shell("LXQt", "startx /usr/bin/startlxqt", "assets/lxqt.png");
-    driver.add_shell("LXQt", "startx /usr/bin/startlxqt", "assets/lxqt.png");
+    driver.add_shell("GEM", "startx /usr/bin/GEM", "assets/GEM.png");
     
     // Обработчик клика
     driver.set_click_handler([](const std::string& command) {
@@ -30,6 +30,8 @@ int main() {
     
     // Запуск основного цикла
     driver.run();
+
+    gem::div div;
     
     return 0;
 }

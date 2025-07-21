@@ -15,6 +15,16 @@
 namespace gem
 {
 
+typedef struct{
+    Uint8 background_color[4]; // rgba
+    Uint8 color[4]; // rgba
+    SDL_Texture* background_image = nullptr;
+    TTF_Font* font_family = nullptr;
+    int font_size;
+    int position[4]; // left, top, right, bottom
+    int size[2]; // wigth, height
+} style;
+
 class DOM{
 public:
     DOM();
@@ -42,11 +52,11 @@ public:
 
     using EventCallback = std::function<void(SDL_Event&)>;
     virtual void handleEvent(SDL_Event& event);
-    void setMouseDownCallback(EventCallback cb) { mouseDownCallback = std::move(cb); };
-    void setMouseUpCallback(EventCallback cb) { mouseUpCallback = std::move(cb); }
-    void setMouseEnterCallback(EventCallback cb) { mouseEnterCallback = std::move(cb); }
-    void setMouseLeaveCallback(EventCallback cb) { mouseLeaveCallback = std::move(cb); }
-    void setMouseMoveCallback(EventCallback cb) { mouseMoveCallback = std::move(cb); }
+    virtual void setMouseDownCallback(EventCallback cb) { mouseDownCallback = std::move(cb); };
+    virtual void setMouseUpCallback(EventCallback cb) { mouseUpCallback = std::move(cb); }
+    virtual void setMouseEnterCallback(EventCallback cb) { mouseEnterCallback = std::move(cb); }
+    virtual void setMouseLeaveCallback(EventCallback cb) { mouseLeaveCallback = std::move(cb); }
+    virtual void setMouseMoveCallback(EventCallback cb) { mouseMoveCallback = std::move(cb); }
 
     virtual void get_coord(int& x, int& y) const;
     virtual void get_size(int& w, int& h) const;
@@ -62,6 +72,9 @@ public:
     virtual void background_image(SDL_Texture* image);
     virtual void content(std::string content);
 
+    virtual void append_child(Node& child);
+    virtual void style(const gem::style&);
+
 protected:
     EventCallback mouseDownCallback;
     EventCallback mouseUpCallback;
@@ -69,10 +82,12 @@ protected:
     EventCallback mouseLeaveCallback;
     EventCallback mouseMoveCallback;
     bool mouseHovered = false;
+    std::vector<Node&> childs; // Дети элемента
+    Node* rootNode = nullptr; // Родительский элемент, от которого будет браться смещение (виртуальные координаты)
 
 private:
     const DOM& dom;
-    Node* rootNode = nullptr; // Родительский элемент, от которого будет браться смещение (виртуальные координаты)
+    
     Uint8 background_color[4];
     Uint8 border_color[4];
     std::string content;
@@ -86,9 +101,9 @@ private:
 
 class div : public Node{
 public:
-    div();
-    div(const div& other) : Node(other){};
-    div(div&& other) noexcept : Node(std::move(other)){};
+    div(); // Конструктор по умолчанию
+    div(const div& other) : Node(other){}; // Конструктор копирования
+    div(div&& other) noexcept : Node(std::move(other)){}; // Конструктор перемещения
 };
 
 
