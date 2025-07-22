@@ -39,28 +39,32 @@ public:
 
     ~DOM();
 
-    void append(const Node& el); // Добавить элемент
+    void append(Node* el); // Добавить элемент
     void remove(const Node& el); // Удалить элемент
 
+    std::vector<Node&> tree;
 protected:
     SDL_Window* window = nullptr;
     SDL_Renderer* renderer = nullptr;
     SDL_Texture* render_target;
     SDL_Event event;
 
-    std::vector<Node&> tree;
 private:
     int virtual_width;
     int virtual_height;
+
+    bool running;
 };
 
 class Node{
 public:
-    Node(const DOM&);
+    Node(DOM*);
     Node(const Node&) noexcept;
     Node(const Node&&) noexcept;
 
     virtual ~Node() = default;
+
+    virtual void geometry(int x, int y, int w, int h);
 
     using EventCallback = std::function<void(SDL_Event&)>;
     virtual void handleEvent(SDL_Event& event);
@@ -90,20 +94,22 @@ public:
     virtual void style(const gem::style&);
 
 protected:
+
+    bool contains(int x, int y);
+
     EventCallback mouseDownCallback;
     EventCallback mouseUpCallback;
     EventCallback mouseEnterCallback;
     EventCallback mouseLeaveCallback;
     EventCallback mouseMoveCallback;
-    bool mouseHovered = false;
     std::vector<Node&> childs; // Дети элемента
     Node* rootNode = nullptr; // Родительский элемент, от которого будет браться смещение (виртуальные координаты)
-
+    
+    bool mouseHovered = false;
     bool focused = false;
-    void setFocus(bool focus) noexcept; // Эта функция вызывается лишь DOM, для определения элемента на котором сфокусирован пользователь
 
 private:
-    const DOM& dom;
+    DOM* dom = nullptr;
     
     Uint8 background_color[4];
     Uint8 border_color[4];
@@ -116,13 +122,17 @@ private:
     SDL_Rect* rect = nullptr; // На всякий случай!
 };
 
-class div : public Node{
+class EventManager{
 public:
-    div(); // Конструктор по умолчанию
-    div(const div& other) : Node(other){}; // Конструктор копирования
-    div(div&& other) noexcept : Node(std::move(other)){}; // Конструктор перемещения
-};
+    EventManager(gem::DOM* DOM) : root(DOM){};
+    EventManager(const EventManager&) = delete;
+    EventManager(const EventManager&&) = delete;
 
+    void HandleAllEvents();
+
+private:
+    gem::DOM* root = nullptr;
+};
 
 } // namespace gem
 

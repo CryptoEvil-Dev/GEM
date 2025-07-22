@@ -84,3 +84,60 @@ gem::DOM::~DOM(){
     IMG_Quit();
     SDL_Quit();
 }
+
+
+
+gem::Node::Node(DOM* _DOM){
+    this->dom = _DOM;
+    this->dom->append(this);
+}
+gem::Node::Node(const Node& other){
+
+    this->dom = other.dom;
+    this->dom->append(this);
+
+    this->background_color[0] = other.background_color[0];
+    this->background_color[1] = other.background_color[1];
+    this->background_color[2] = other.background_color[2];
+    this->background_color[3] = other.background_color[3];
+
+    this->border_color[0] = other.border_color[0];
+    this->border_color[1] = other.border_color[1];
+    this->border_color[2] = other.border_color[2];
+    this->border_color[3] = other.border_color[3];
+
+    this->content = other.content;
+    this->font = other.font;
+    this->font_size = other.font_size;
+
+    this->coord[0] = other.coord[0];
+    this->coord[1] = other.coord[1];
+
+    this->size[0] = other.size[0];
+    this->size[1] = other.size[1];
+
+    this->rect->x = this->coord[0];
+    this->rect->y = this->coord[1];
+
+    this->rect->w = this->size[0];
+    this->rect->h = this->size[1];
+
+
+    this->mouseDownCallback = other.mouseDownCallback;
+    this->mouseUpCallback = other.mouseUpCallback;
+    this->mouseEnterCallback = other.mouseEnterCallback;
+    this->mouseLeaveCallback = other.mouseLeaveCallback;
+    this->mouseMoveCallback = other.mouseMoveCallback;
+
+    this->rootNode = other.rootNode;
+    if(other.childs.size() != 0){
+        for(int i = 0; i < other.childs.size(); i++) this->childs.push_back(other.childs[i]);
+    }
+}
+
+
+
+
+bool gem::Node::contains(int x, int y){
+    return (x >= this->coord[0] && x < this->coord[0] + this->size[0] && y >= this->coord[1] + this->size[1]);
+}
