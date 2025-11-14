@@ -14,6 +14,8 @@ pkg_check_modules(SDL2 REQUIRED sdl2)
 pkg_check_modules(SDL2_IMAGE REQUIRED SDL2_image)
 pkg_check_modules(SDL2_GFX REQUIRED SDL2_gfx)  # Ищем SDL2_gfx через pkg-config
 pkg_check_modules(SDL2_TTF REQUIRED SDL2_ttf)
+pkg_check_modules(SDL2_MIXER REQUIRED SDL2_mixer)
+
 
 
 # Настройка путей
@@ -23,12 +25,19 @@ include_directories(
     ${SDL2_IMAGE_INCLUDE_DIRS}
     ${SDL2_GFX_INCLUDE_DIRS}
     ${SDL2_TTF_INCLUDE_DIRS}
+    ${SDL2_MIXER_INCLUDE_DIRS}
     include/
 )
 
 # Список исходных файлов
+# set(SOURCES
+#     src/sdl_graphic.cpp
+#     main.cpp
+# )
 set(SOURCES
-    src/sdl_graphic.cpp
+    src/DOM.cpp
+    src/Node.cpp
+    src/GReport.cpp
     main.cpp
 )
 
@@ -41,6 +50,7 @@ target_link_libraries(${PROJECT_NAME}
     ${SDL2_IMAGE_LIBRARIES}
     ${SDL2_GFX_LIBRARIES}
     ${SDL2_TTF_LIBRARIES}
+    ${SDL2_MIXER_LIBRARIES} 
 )
 
 # Установка прав для запуска от root

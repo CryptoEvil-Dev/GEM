@@ -1,3 +1,7 @@
+/*
+    DEPRECATED
+*/
+
 #ifndef _GEM_ENGINE_
 #define _GEM_ENGINE_
 #pragma once

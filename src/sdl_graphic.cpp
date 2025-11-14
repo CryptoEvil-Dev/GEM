@@ -1,3 +1,7 @@
+/*
+    DEPRECATED
+*/
+
 #include "include/sdl_graphic.hpp"
 #include <iostream>
 #include <unistd.h>

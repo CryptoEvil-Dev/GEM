@@ -1,3 +1,7 @@
+/*
+    DEPRECATED
+*/
+
 #include "include/Engine.hpp"
 
 
@@ -74,7 +78,6 @@ gem::DOM::DOM(int v_width, int v_height){
         SDL_Quit();
         this->~DOM();
     }
-}
 
 gem::DOM::~DOM(){
     if(this->render_target) SDL_DestroyTexture(this->render_target);
@@ -83,4 +86,8 @@ gem::DOM::~DOM(){
 
     IMG_Quit();
     SDL_Quit();
+}
+
+void gem::DOM::append(const Node& el){
+    this->tree.push_back(el);
 }

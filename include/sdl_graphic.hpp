@@ -1,3 +1,7 @@
+/*
+    DEPRECATED
+*/
+
 #ifndef _GEM_SDL_GRAPHIC_
 #define _GEM_SDL_GRAPHIC_
 

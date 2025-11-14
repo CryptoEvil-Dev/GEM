@@ -29,7 +29,7 @@ Graphic Environment Manager(**GEM**):<br />Менеджер графически
 **Наведение (hover)**<br />
 Может изменяться любое значение конфигурации, есть дополнительные свойства:<br />
 Для добавления эффекта необходимо добавить Map "hover": [...]<br />
-**transition**: Времянной промежуток изменения элемента в секундах<br />
+**transition**: Временной промежуток изменения элемента в секундах<br />
 **effect**: Эффект с которым преобразуется объект из одного состояния в другое (**ease**, **ease-in-out**)
 
 ---
@@ -68,5 +68,7 @@ sudo sudo apt install -y \
     ninja-build \
     pkg-config \
     fonts-roboto \
-    fonts-dejavu
+    fonts-dejavu \
+    libsdl2-mixer-dev
+
 ```
