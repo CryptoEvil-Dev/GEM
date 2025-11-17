@@ -68,3 +68,6 @@ endif()
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/assets)
 file(GLOB_RECURSE ASSETS "${CMAKE_SOURCE_DIR}/assets/*")
 file(COPY ${ASSETS} DESTINATION ${CMAKE_BINARY_DIR}/assets)
+
+# Пресеты
+add_subdirectory(tests/GReport)

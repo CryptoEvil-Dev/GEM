@@ -19,6 +19,20 @@
         "CC": "gcc",
         "CXX": "g++"
       }
+    },
+    {
+      "name": "build_GReport",
+      "displayName": "Build Check Components",
+      "description": "Configure project for component tests",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/build_GReports",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      },
+      "environment": {
+        "CC": "gcc",
+        "CXX": "g++"
+      }
     }
   ],
   "buildPresets": [
@@ -28,6 +42,13 @@
       "displayName": "Build All",
       "description": "Build all targets",
       "targets": ["all"]
+    },
+    {
+      "name": "build_GReport",
+      "configurePreset": "build_GReport",
+      "displayName": "Build Check Components",
+      "description": "Build component tests",
+      "targets": ["GReport"]
     }
   ],
   "testPresets": [
@@ -36,6 +57,15 @@
       "configurePreset": "build_all",
       "displayName": "Run Tests",
       "description": "Run all tests"
+    },
+    {
+      "name": "test_GReport",
+      "configurePreset": "build_GReport",
+      "displayName": "Run Component Tests",
+      "description": "Run tests from GReport",
+      "execution": {
+        "jobs": 1
+      }
     }
   ],
   "workflowPresets": [
@@ -49,6 +79,19 @@
         {
           "type": "build",
           "name": "build_all"
+        }
+      ]
+    },
+    {
+      "name": "build_GReport",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "build_GReport"
+        },
+        {
+          "type": "build",
+          "name": "build_GReport"
         }
       ]
     }
