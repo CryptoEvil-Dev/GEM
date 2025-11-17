@@ -23,7 +23,7 @@
 namespace gem
 {
 
-enum class EventType {MOUSE_DOWN, MOUSE_UP, MOUSE_ENTER, MOUSE_LEAVE, MOUSE_MOVE, FOCUS};
+enum class EventType {MOUSE_DOWN, MOUSE_UP, MOUSE_ENTER, MOUSE_LEAVE, MOUSE_MOVE, FOCUS, CLICK};
 
 typedef struct{
     Uint8 background_color[4]; // rgba
@@ -43,38 +43,49 @@ public:
 
     ~DOM();
 
-    void append(const Node& el); // Добавить элемент
-    void remove(const Node& el); // Удалить элемент
+    void append(Node* el); // Добавить элемент
+    void remove(Node* el); // Удалить элемент
 
-protected:
+    std::vector<Node*> getAllNodes() const;
+    void addToFlatList(Node* node);
+    void removeFromFlatList(Node* node);
+
+// protected:
     SDL_Window* window = nullptr;
     SDL_Renderer* renderer = nullptr;
     SDL_Texture* render_target;
     SDL_Event event;
+    std::vector<Node*> tree;
+    std::vector<Node*> all_nodes;
+    bool running;
 
-    std::vector<Node&> tree;
 private:
     int virtual_width;
     int virtual_height;
+
+
 };
 
 class Node{
 public:
-    Node(const DOM&);
+    Node(DOM*);
     Node(const Node&) noexcept;
     Node(const Node&&) noexcept;
 
     virtual ~Node() = default;
 
+    virtual void geometry(int x, int y, int w, int h);
+
     using EventCallback = std::function<void(SDL_Event&)>;
     virtual void handleEvent(SDL_Event& event);
-    virtual void setMouseDownCallback(EventCallback cb) { mouseDownCallback = std::move(cb); };
-    virtual void setMouseUpCallback(EventCallback cb) { mouseUpCallback = std::move(cb); }
-    virtual void setMouseEnterCallback(EventCallback cb) { mouseEnterCallback = std::move(cb); }
-    virtual void setMouseLeaveCallback(EventCallback cb) { mouseLeaveCallback = std::move(cb); }
-    virtual void setMouseMoveCallback(EventCallback cb) { mouseMoveCallback = std::move(cb); }
+    // virtual void setMouseDownCallback(EventCallback cb) { mouseDownCallback = std::move(cb); };
+    // virtual void setMouseUpCallback(EventCallback cb) { mouseUpCallback = std::move(cb); }
+    // virtual void setMouseEnterCallback(EventCallback cb) { mouseEnterCallback = std::move(cb); }
+    // virtual void setMouseLeaveCallback(EventCallback cb) { mouseLeaveCallback = std::move(cb); }
+    // virtual void setMouseMoveCallback(EventCallback cb) { mouseMoveCallback = std::move(cb); }
 
     virtual void addEventListeneer(gem::EventType event_type, EventCallback cb);
+    virtual void removeEventListeneer(gem::EventType event_type);
 
     virtual void get_coord(int& x, int& y) const;
     virtual void get_size(int& w, int& h) const;
@@ -90,24 +101,35 @@ public:
     virtual void background_image(SDL_Texture* image);
     virtual void content(std::string content);
 
-    virtual void append_child(Node& child);
-    virtual void style(const gem::style&);
+    virtual void append_child(Node* child);
+    virtual void remove_child(Node* child);
+    virtual void style(const gem::style& style);
 
-protected:
+
+    Node* parent = nullptr;
+    std::vector<Node*> childs; // Дети элемента
+    bool contains(int x, int y);
+
+// protected:
     EventCallback mouseDownCallback;
     EventCallback mouseUpCallback;
     EventCallback mouseEnterCallback;
     EventCallback mouseLeaveCallback;
     EventCallback mouseMoveCallback;
-    bool mouseHovered = false;
-    std::vector<Node&> childs; // Дети элемента
+    
     Node* rootNode = nullptr; // Родительский элемент, от которого будет браться смещение (виртуальные координаты)
-
+    
+    bool mouseHovered = false;
+    bool mousePressed = false;
     bool focused = false;
-    void setFocus(bool focus) noexcept; // Эта функция вызывается лишь DOM, для определения элемента на котором сфокусирован пользователь
 
+    SDL_Rect rect;
+
+    std::unordered_map<EventType, EventCallback> callbacks;
 private:
-    const DOM& dom;
+
+
+    DOM* dom = nullptr;
     
     Uint8 background_color[4];
     Uint8 border_color[4];
@@ -117,15 +139,23 @@ private:
     int coord[2];
     int size[2];
 
-    SDL_Rect* rect = nullptr; // На всякий случай!
 };
 
-class div : public Node{
-public:
-    div(); // Конструктор по умолчанию
-    div(const div& other) : Node(other){}; // Конструктор копирования
-    div(div&& other) noexcept : Node(std::move(other)){}; // Конструктор перемещения
-};
+class EventManager {
+    public:
+        EventManager(gem::DOM* dom) : dom(dom) {};
+        EventManager(const EventManager&) = delete;
+        EventManager(EventManager&&) = delete;
+
+        void handleEvent(SDL_Event& event);
+
+    private:
+        gem::DOM* dom = nullptr;
+        Node* lastHoveredNode = nullptr;
+        Node* pressedNode = nullptr;
+
+        Node* findTopNodeAtPosition(int x, int y) const;
+    };
 
 
 } // namespace gem
