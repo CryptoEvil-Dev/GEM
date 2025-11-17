@@ -22,5 +22,5 @@ file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/assets)
 file(GLOB_RECURSE ASSETS "${CMAKE_SOURCE_DIR}/assets/*")
 file(COPY ${ASSETS} DESTINATION ${CMAKE_BINARY_DIR}/assets)
 
-set_target_properties(GReport PROPERTIES
-                        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+# set_target_properties(GReport PROPERTIES
+#                         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
